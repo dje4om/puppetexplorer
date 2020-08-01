@@ -23,11 +23,11 @@ angular.module('app').controller 'DashboardCtrl', class
     @$scope.panelWidth = Math.max(2, Math.floor(12 / @$scope.panels.length))
     @checkVersion()
 
-  getBean: (name, scopeName, multiply = 1, bean = 'puppetlabs.puppetdb.query.population') ->
+  getBean: (name, scopeName, multiply = 1, bean = 'puppetlabs.puppetdb.population') ->
     @$scope[scopeName] = undefined
-    @PuppetDB.getBean("#{bean}:type=default,name=#{name}")
+    @PuppetDB.getBean("#{bean}:name=#{name}")
       .success (data) =>
-        @$scope[scopeName] = (angular.fromJson(data).Value * multiply)
+        @$scope[scopeName] = (angular.fromJson(data).value.Value * multiply)
           .toLocaleString()
           .replace(/^(.*\..).*/, "$1")
       .error (data, status) ->
